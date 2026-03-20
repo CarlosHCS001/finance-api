@@ -6,7 +6,7 @@ API REST para gerenciamento de finanças pessoais, desenvolvida com FastAPI e Py
 - Python 3.13
 - FastAPI
 - SQLAlchemy
-- PostgreSQL
+- SQLite
 - Uvicorn
 
 ## ⚙️ Como rodar localmente
@@ -30,15 +30,30 @@ pip install -r requirements.txt
 
 # Rode a API
 uvicorn app.main:app --reload
+# Windows (se uvicorn não for reconhecido no CMD)
+venv\Scripts\python.exe -m uvicorn app.main:app --reload
 ```
 
 Acesse: http://localhost:8000/docs
+
+## 📁 Estrutura
+O main.py define os endpoints e conecta os outros módulos. O database.py configura a conexão com o SQLite. O models.py define a estrutura da tabela no banco. O schemas.py define e valida os dados que entram e saem pela API.
 
 ## 📍 Endpoints
 
 | Método | Rota | Descrição |
 |--------|------|-----------|
 | GET | / | Status da API |
+| GET | /transactions | Busca todas as transações |
+| POST | /transactions | Cria uma nova transação |
+
+## 📍 Body (POST /transactions)
+| Campo | Tipo | Obrigatório |
+|-------|------|-------------|
+| description | string | ✅ |
+| amount | float | ✅ |
+| date | date (YYYY-MM-DD) | ✅ |
+| category | string | ✅ |
 
 ## 📌 Status
 🚧 Em desenvolvimento...
