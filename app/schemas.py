@@ -5,7 +5,7 @@ class TransactionCreate(BaseModel):
     description: str
     amount: float
     date: datetime.date
-    category: str
+    category: str | None = None
 
     @field_validator('amount')
     @classmethod

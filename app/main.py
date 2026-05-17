@@ -4,6 +4,7 @@ from fastapi import FastAPI, Depends, HTTPException
 import app.models as models
 import app.schemas as schemas
 from app.database import SessionLocal, engine
+from app.services import categorize
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -23,6 +24,10 @@ def read_root():
 
 @app.post("/transactions", response_model=schemas.TransactionResponse)
 def create_transaction(transaction: schemas.TransactionCreate, db: Session = Depends(get_db)):
+    # Se category não foi informada, categoriza automaticamente
+    if not transaction.category:
+        transaction.category = categorize(transaction.description)
+
     db_transaction = models.Transaction(**transaction.model_dump())
     db.add(db_transaction)
     db.commit()
@@ -32,8 +37,6 @@ def create_transaction(transaction: schemas.TransactionCreate, db: Session = Dep
 @app.get("/transactions", response_model=list[schemas.TransactionResponse])
 def get_transactions(db: Session = Depends(get_db)):
     return db.query(models.Transaction).all()
-
-
 
 @app.put("/transactions/{transaction_id}", response_model=schemas.TransactionResponse)
 def update_transaction(transaction_id: int, transaction: schemas.TransactionUpdate, db: Session = Depends(get_db)):
@@ -49,7 +52,6 @@ def update_transaction(transaction_id: int, transaction: schemas.TransactionUpda
     db.commit()
     db.refresh(db_transaction)
     return db_transaction
-
 
 @app.delete("/transactions/{transaction_id}")
 def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
