@@ -4,7 +4,7 @@ from fastapi import FastAPI, Depends, HTTPException
 import app.models as models
 import app.schemas as schemas
 from app.database import SessionLocal, engine
-from app.services import categorize
+from app.services import categorize, get_summary
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -52,6 +52,11 @@ def update_transaction(transaction_id: int, transaction: schemas.TransactionUpda
     db.commit()
     db.refresh(db_transaction)
     return db_transaction
+
+@app.get("/transactions/summary")
+def get_transactions_summary(db: Session = Depends(get_db)):
+    transactions = db.query(models.Transaction).all()
+    return get_summary(transactions)
 
 @app.delete("/transactions/{transaction_id}")
 def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):

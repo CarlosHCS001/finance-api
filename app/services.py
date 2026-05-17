@@ -18,3 +18,17 @@ def categorize(description: str) -> str:
 
     # se não reconheceu nada
     return "outros"
+
+def get_summary(transactions):
+    total = 0
+    by_category = {}
+
+    for t in transactions:
+        total += t.amount
+        category = t.category.lower() if t.category else "outros"  # normaliza
+
+        if category not in by_category:
+            by_category[category] = 0
+        by_category[category] += t.amount
+
+    return {"total": total, "by_category": by_category}
