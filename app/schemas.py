@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator, ConfigDict
 import datetime
 
 class TransactionCreate(BaseModel):
@@ -29,6 +29,4 @@ class TransactionUpdate(BaseModel):
 
 class TransactionResponse(TransactionCreate):
     id: int
-
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
