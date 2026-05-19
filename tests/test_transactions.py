@@ -16,3 +16,9 @@ def test_get_transactions():
     response = client.get("/transactions")
     assert response.status_code == 200
     assert isinstance(response.json(), list)
+
+def test_get_transactions_summary():
+    response = client.get("/transactions/summary")
+    assert response.status_code == 200
+    assert "total" in response.json()
+    assert "by_category" in response.json()
