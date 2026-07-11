@@ -1,59 +1,25 @@
 # Finance API 💰
 
-API REST para gerenciamento de finanças pessoais, desenvolvida com FastAPI e Python.
+## 🎯 O Problema
+A gestão financeira pessoal muitas vezes falha pela falta de padronização e dificuldade em visualizar gastos por categoria. Planilhas manuais são propensas a erros e não oferecem uma interface programável para automações futuras.
 
-## 🚀 Tecnologias
-- Python 3.13
-- FastAPI
-- SQLAlchemy
-- SQLite
-- Uvicorn
+## 🚀 A Solução
+Uma API REST robusta desenvolvida para ser o motor de um sistema de finanças pessoais. Focada em **consistência de dados**, **categorização automática** e pronta para escala (preparada para migração de SQLite para PostgreSQL).
 
-## ⚙️ Como rodar localmente
+## 🛠️ Tecnologias e Decisões Técnicas
+- **Python 3.13**: Versão mais recente para aproveitar melhorias de performance.
+- **FastAPI**: Escolhido pela alta performance e validação nativa com Pydantic.
+- **SQLAlchemy 2.0**: Uso de ORM para abstração do banco de dados e facilitar a troca para PostgreSQL.
+- **Pydantic**: Garantia de que nenhum dado inválido entre no banco.
+- **GitHub Actions**: Pipeline de CI configurado para garantir que novos códigos não quebrem o sistema.
 
-### Pré-requisitos
-- Python 3.10+
-- Git
+## 🏗️ Estrutura do Projeto
+- `/app`: Núcleo da aplicação (Models, Services, Endpoints).
+- `/tests`: Garantia de qualidade e funcionamento das regras de negócio.
+- `.env`: Gestão de variáveis de ambiente para segurança de credenciais.
 
-### Instalação
-```bash
-# Clone o repositório
-git clone https://github.com/CarlosHCS001/finance-api.git
-cd finance-api
-
-# Crie e ative o ambiente virtual
-python -m venv venv
-venv\Scripts\activate  # Windows
-
-# Instale as dependências
-pip install -r requirements.txt
-
-# Rode a API
-uvicorn app.main:app --reload
-# Windows (se uvicorn não for reconhecido no CMD)
-venv\Scripts\python.exe -m uvicorn app.main:app --reload
-```
-
-Acesse: http://localhost:8000/docs
-
-## 📁 Estrutura
-O main.py define os endpoints e conecta os outros módulos. O database.py configura a conexão com o SQLite. O models.py define a estrutura da tabela no banco. O schemas.py define e valida os dados que entram e saem pela API.
-
-## 📍 Endpoints
-
-| Método | Rota | Descrição |
-|--------|------|-----------|
-| GET | / | Status da API |
-| GET | /transactions | Busca todas as transações |
-| POST | /transactions | Cria uma nova transação |
-
-## 📍 Body (POST /transactions)
-| Campo | Tipo | Obrigatório |
-|-------|------|-------------|
-| description | string | ✅ |
-| amount | float | ✅ |
-| date | date (YYYY-MM-DD) | ✅ |
-| category | string | ✅ |
-
-## 📌 Status
-🚧 Em desenvolvimento...
+## 🏁 Como Executar
+1. Clone o repositório
+2. Crie um ambiente virtual: `python -m venv .venv`
+3. Instale as dependências: `pip install -r requirements.txt`
+4. Inicie o servidor: `uvicorn app.main:app --reload`
